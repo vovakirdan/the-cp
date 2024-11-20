@@ -35,10 +35,20 @@ int main(int argc, char* argv[]) {
         .onGround = 0
     };
 
+    // Timing
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
+
+    Uint32 frameStart;
+    int frameTime;
+
     // Game loop
     int running = 1;
     SDL_Event e;
     while (running) {
+        frameStart = SDL_GetTicks();
+
+        // Handle events
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 running = 0;
@@ -59,6 +69,11 @@ int main(int argc, char* argv[]) {
         renderPlayer(renderer, &player);
 
         SDL_RenderPresent(renderer);
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime) {
+            SDL_Delay(frameDelay - frameTime);
+        }
     }
 
     // Cleanup
