@@ -5,7 +5,7 @@ LDFLAGS = `sdl2-config --libs`
 SRCS = src/main.c src/map.c src/game.c
 OBJS = $(SRCS:.c=.o)
 
-TARGET = platformer
+TARGET = the-cp
 
 all: $(TARGET)
 
