@@ -25,6 +25,16 @@ int main(int argc, char* argv[]) {
     int map[MAP_HEIGHT][MAP_WIDTH];
     generateMap(map);
 
+    Player player = {
+        .x = TILE_SIZE * 5,
+        .y = TILE_SIZE * 5,
+        .dx = 0,
+        .dy = 0,
+        .width = TILE_SIZE,
+        .height = TILE_SIZE,
+        .onGround = 0
+    };
+
     // Game loop
     int running = 1;
     SDL_Event e;
@@ -35,11 +45,18 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        // Handle input
+        handlePlayerInput(&player);
+
+        // Update game state
+        updatePlayer(&player, map);
+
         // Render
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
+        SDL_SetRenderDrawColor(renderer, COLOR_SKY.r, COLOR_SKY.g, COLOR_SKY.b, COLOR_SKY.a); // Sky background
         SDL_RenderClear(renderer);
 
         renderMap(renderer, map);
+        renderPlayer(renderer, &player);
 
         SDL_RenderPresent(renderer);
     }
